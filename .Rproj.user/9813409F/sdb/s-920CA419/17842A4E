@@ -1,0 +1,16 @@
+{
+    "contents" : "#' @name Invasive\n#' @title Invasive Taxa Related Metrics\n#' \n#' @description Calculates various metrics based on Invasive taxa\n#' \n#' @usage \n#' Invasive_Percent(x)\n#' Invasive_PercentTaxa(x)\n#' Invasive_Taxa(x)\n#' \n#' @param x An object of class BMIprc or BMIagg\n#' \n#' @S3method Invasive_Percent BMIprc \n#' @S3method Invasive_Percent BMIagg\n#' @S3method Invasive_PercentTaxa BMIprc \n#' @S3method Invasive_PercentTaxa BMIagg\n#' @S3method Invasive_Taxa BMIprc \n#' @S3method Invasive_Taxa BMIagg\n#' @export Invasive_Percent\n#' @export Invasive_PercentTaxa\n#' @export Invasive_Taxa\n#' @import plyr\n#' @include loadMetaData.r\n\n\nInvasive_Percent <- function(x){\n  UseMethod(\"Invasive_Percent\", x)  \n}\nInvasive_PercentTaxa <- function(x){\n  UseMethod(\"Invasive_PercentTaxa\", x)\n}\nInvasive_Taxa <- function(x){\n  UseMethod(\"Invasive_Taxa\", x)\n}\n\nInvasive_Percent.BMIprc <- function(x){\n  metadata <- loadMetaData()\n  x$Invasive <- metadata$Invasive[match(x$FinalID, metadata$FinalID)]\n  ddply(x, \"SampleID\", function(df){\n    sum(df$BAResult.subsample[df$Invasive ==1])/sum(df$BAResult.subsample)\n  })\n}\n\nInvasive_Percent.BMIagg <- function(x){\n  metadata <- loadMetaData()\n  x$Invasive <- metadata$Invasive[match(x$FinalID, metadata$FinalID)]\n  ddply(x, \"SampleID\", function(df){\n    sum(df$BAResult[df$Invasive ==1])/sum(df$BAResult)\n  })\n}\n\nInvasive_PercentTaxa.BMIprc <- function(x){\n  metadata <- loadMetaData()\n  x$Invasive <- metadata$Invasive[match(x$FinalID, metadata$FinalID)]\n  ddply(x[x$BAResult.subsample >0, ], \"SampleID\", function(df){\n    nrow(df[df$Invasive ==1])/nrow(df)\n  })\n}\n\nInvasive_PercentTaxa.BMIagg <- function(x){\n  metadata <- loadMetaData()\n  x$Invasive <- metadata$Invasive[match(x$FinalID, metadata$FinalID)]\n  ddply(x[x$BAResult >0, ], \"SampleID\", function(df){\n    nrow(df[df$Invasive ==1])/nrow(df)\n  })\n}\n\nInvasive_Taxa.BMIprc <- function(x){\n  metadata <- loadMetaData()\n  x$Invasive <- metadata$Invasive[match(x$FinalID, metadata$FinalID)]\n  ddply(x[x$BAResult.subsample >0, ], \"SampleID\", function(df){\n    nrow(df[df$Invasive ==1])\n  })\n}\n\nInvasive_Taxa.BMIagg <- function(x){\n  metadata <- loadMetaData()\n  x$Invasive <- metadata$Invasive[match(x$FinalID, metadata$FinalID)]\n  ddply(x[x$BAResult >0, ], \"SampleID\", function(df){\n    nrow(df[df$Invasive ==1])\n  })\n}",
+    "created" : 1350591839201.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4282975196",
+    "id" : "17842A4E",
+    "lastKnownWriteTime" : 1350591853,
+    "path" : "P:/PartTimers/MarkEngeln/BMI_Metrics/R/Invasive.r",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

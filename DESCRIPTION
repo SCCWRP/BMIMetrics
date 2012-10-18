@@ -1,0 +1,44 @@
+Package: BMIMetrics
+Type: Package
+Title: Suite of metric calculators for benthic macroinvertebrate communities
+Version: 0.1
+Date: 2012-10-17
+Author: MW Engeln
+Maintainer: <raphaelm@sccwrp.org>
+Description: Suite of metric calculators for benthic macroinvertebrate
+    communities
+License: GPL-3
+Depends:
+    vegan,
+    reshape,
+    stringr,
+    plyr
+Collate:
+    'loadMetaData.r'
+    'Acari.r'
+    'aggregate.r'
+    'Amphipoda.r'
+    'Burrower.r'
+    'CGCG.r'
+    'Chironomidae.r'
+    'Climber.r'
+    'Clinger.r'
+    'Coleoptera.r'
+    'Crustacea.r'
+    'Diptera.r'
+    'Ephemeroptera.R'
+    'EPT.r'
+    'Invasive.r'
+    'Noninsect.r'
+    'Plecoptera.r'
+    'Predator.r'
+    'sample.r'
+    'Scraper.r'
+    'Shredder.r'
+    'Swimmer.r'
+    'Tolerance.r'
+    'Total_Taxa.r'
+    'Trichoptera.r'
+    'BMI.r'
+    'BMIMetrics.r'
+    'bugdata.r'

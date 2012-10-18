@@ -1,0 +1,91 @@
+Group,Metric,Class,Form,Data,STE
+Taxonomic,EPT_Percent,EPT,% individuals,Abundance,NA
+Taxonomic,EPT_Taxa,EPT,Number of taxa,Taxa,Level1
+Taxonomic,EPT_PercentTaxa,EPT,% of taxa,Taxa,Level1
+Taxonomic,Chironomidae_Percent,Diptera,% individuals,Abundance,NA
+Taxonomic,Diptera_Percent,Diptera,% individuals,Abundance,NA
+Taxonomic,Diptera_Taxa,Diptera,Number of taxa,Taxa,Level1
+Taxonomic,Diptera_PercentTaxa,Diptera,% of taxa,Taxa,Level1
+Taxonomic,Coleoptera_Percent,Coleoptera,% Individuals,Abundance,NA
+Taxonomic,Coleoptera_Taxa,Coleoptera,Number of taxa,Taxa,Level1
+Taxonomic,Coleoptera_PercentTaxa,Coleoptera,% of taxa,Taxa,Level1
+Taxonomic,Total_Taxa,Total,Number of taxa,Taxa,Level1
+Taxonomic,Shannon_Diversity,Total,Other,Abundance,Level1
+Taxonomic,Noninsect_Percent,Noninsect,% Individuals,Abundance,NA
+Taxonomic,Noninsect_Taxa,Noninsect,Number of taxa,Taxa,Level1
+Taxonomic,Noninsect_PercentTaxa,Noninsect,% of taxa,Taxa,Level1
+FFG,CFCG_Percent,Collectors,% Individuals,Abundance,Level1
+FFG,CFCG_Taxa,Collectors,Number of taxa,Taxa,Level1
+FFG,CFCG_PercentTaxa,Collectors,% of taxa,Taxa,Level1
+FFG,Predator_Percent,Predators,% Individuals,Abundance,Level1
+FFG,Predator_Taxa,Predators,Number of taxa,Taxa,Level1
+FFG,Predator_PercentTaxa,Predators,% of taxa,Taxa,Level1
+FFG,Scraper_Percent,Scrapers,% Individuals,Abundance,Level1
+FFG,Scraper_Taxa,Scrapers,Number of taxa,Taxa,Level1
+FFG,Scraper_PercentTaxa,Scrapers,% of taxa,Taxa,Level1
+FFG,Shredder_Percent,Shredders,% Individuals,Abundance,Level1
+FFG,Shredder_Taxa,Shredders,Number of taxa,Taxa,Level1
+FFG,Shredder_PercentTaxa,Shredders,% of taxa,Taxa,Level1
+Tolerance,Intolerant_Percent,Intolerance,% Individuals,Abundance,Level1
+Tolerance,Intolerant_Taxa,Intolerance,Number of taxa,Taxa,Level1
+Tolerance,Intolerant_PercentTaxa,Intolerance,% of taxa,Taxa,Level1
+Tolerance,Tolerant_Percent,Tolerance,% Individuals,Abundance,Level1
+Tolerance,Tolerant_Taxa,Tolerance,Number of taxa,Taxa,Level1
+Tolerance,Tolerant_PercentTaxa,Tolerance,% of taxa,Taxa,Level1
+Tolerance,ToleranceValue,Tolerant,Other,Abundance,Level1
+Invasive,Invasive_Percent,Invasive,% Individuals,Abundance,NA
+Invasive,Invasive_Taxa,Invasive,Number of taxa,Taxa,NA
+Invasive,Invasive_PercentTaxa,Invasive,% of taxa,Taxa,NA
+Taxonomic,Ephemeroptera_Percent,Ephemeroptera,% individuals,Abundance,NA
+Taxonomic,Ephemeroptera_Taxa,Ephemeroptera,Number of taxa,Taxa,Level1
+Taxonomic,Ephemeroptera_PercentTaxa,Ephemeroptera,% of taxa,Taxa,Level1
+Taxonomic,Trichoptera_Percent,Trichoptera,% individuals,Abundance,NA
+Taxonomic,Trichoptera_Taxa,Trichoptera,Number of taxa,Taxa,Level1
+Taxonomic,Trichoptera_PercentTaxa,Trichoptera,% of taxa,Taxa,Level1
+Taxonomic,Plecoptera_Percent,Plecoptera,% individuals,Abundance,NA
+Taxonomic,Plecoptera_Taxa,Plecoptera,Number of taxa,Taxa,Level1
+Taxonomic,Plecoptera_PercentTaxa,Plecoptera,% of taxa,Taxa,Level1
+Habit,Burrower_Percent,Burrower,% individuals,Abundance,NA
+Habit,Burrower_Taxa,Burrower,Number of taxa,Taxa,Level1
+Habit,Burrower_PercentTaxa,Burrower,% of taxa,Taxa,Level1
+Habit,Swimmer_Percent,Swimmer,% individuals,Abundance,NA
+Habit,Swimmer_Taxa,Swimmer,Number of taxa,Taxa,Level1
+Habit,Swimmer_PercentTaxa,Swimmer,% of taxa,Taxa,Level1
+Habit,Clinger_Percent,Clinger,% individuals,Abundance,NA
+Habit,Clinger_Taxa,Clinger,Number of taxa,Taxa,Level1
+Habit,Clinger_PercentTaxa,Clinger,% of taxa,Taxa,Level1
+Habit,Climber_Percent,Climber,% individuals,Abundance,NA
+Habit,Climber_Taxa,Climber,Number of taxa,Taxa,Level1
+Habit,Climber_PercentTaxa,Climber,% of taxa,Taxa,Level1
+Taxonomic,EPT_Taxa,EPT,Number of taxa,Taxa,Level2
+Taxonomic,EPT_PercentTaxa,EPT,% of taxa,Taxa,Level2
+Taxonomic,Diptera_Taxa,Diptera,Number of taxa,Taxa,Level2
+Taxonomic,Diptera_PercentTaxa,Diptera,% of taxa,Taxa,Level2
+Taxonomic,Coleoptera_Taxa,Coleoptera,Number of taxa,Taxa,Level2
+Taxonomic,Coleoptera_PercentTaxa,Coleoptera,% of taxa,Taxa,Level2
+Taxonomic,Total_Taxa,Total,Number of taxa,Taxa,Level2
+Taxonomic,Shannon_Diversity,Total,Other,Abundance,Level2
+Taxonomic,Noninsect_Taxa,Noninsect,Number of taxa,Taxa,Level2
+Taxonomic,Noninsect_PercentTaxa,Noninsect,% of taxa,Taxa,Level2
+Taxonomic,Ephemeroptera_Taxa,Ephemeroptera,Number of taxa,Taxa,Level2
+Taxonomic,Ephemeroptera_PercentTaxa,Ephemeroptera,% of taxa,Taxa,Level2
+Taxonomic,Trichoptera_Taxa,Trichoptera,Number of taxa,Taxa,Level2
+Taxonomic,Trichoptera_PercentTaxa,Trichoptera,% of taxa,Taxa,Level2
+Taxonomic,Plecoptera_Taxa,Plecoptera,Number of taxa,Taxa,Level2
+Taxonomic,Plecoptera_PercentTaxa,Plecoptera,% of taxa,Taxa,Level2
+Taxonomic,Acari_Percent,Acari,% individuals,Abundance,NA
+Taxonomic,Acari_Taxa,Acari,Number of taxa,Taxa,Level2
+Taxonomic,Acari_PercentTaxa,Acari,% of taxa,Taxa,Level2
+Taxonomic,Chironomidae_Taxa,Chironomidae,Number of taxa,Taxa,Level2
+Taxonomic,Chironomidae_PercentTaxa,Chironomidae,% of taxa,Taxa,Level2
+Taxonomic,Tanypodinae_Percent,Chironomidae,% individuals,Abundance,Level2
+Taxonomic,Chironominae_Percent,Chironomidae,% individuals,Abundance,Level2
+Taxonomic,Orthocladiinae_Percent,Chironomidae,% individuals,Abundance,Level2
+Taxonomic,Tanypodinae_PercentOfMidges,Chironomidae,% individuals,Abundance,Level2
+Taxonomic,Chironominae_PercentOfMidges,Chironomidae,% individuals,Abundance,Level2
+Taxonomic,Orthocladiinae_PercentOfMidges,Chironomidae,% individuals,Abundance,Level2
+Taxonomic,Amphipoda_Percent,Crustacea,% individuals,Abundance,NA
+Taxonomic,Ostracoda_Percent,Crustacea,% individuals,Abundance,NA
+Taxonomic,Crustacea_Percent,Crustacea,% individuals,Abundance,NA
+Taxonomic,Simpson_Diversity,Total,Other,Abundance,Level1
+Taxonomic,Simpson_Diversity,Total,Other,Abundance,Level2

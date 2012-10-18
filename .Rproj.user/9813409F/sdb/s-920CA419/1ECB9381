@@ -1,0 +1,16 @@
+{
+    "contents" : "#' Aggregate FinalID\n#' \n#' Aggregates to  taxonomic effort levels SAFIT1 and SAFIT2\n#' \n#' @param x An object of class BMI\n#' @export \n#' @import plyr\n#' @include loadMetaData.r\n\naggregate.BMI <- function(x){\n  metadata <- loadMetaData()\n  ###Aggregate FinalID###\n  x <- ddply(x, \"SampleID\", function(df){\n    ddply(df, \"FinalID\", function(sdf){\n      id <- unique(sdf[, !(names(sdf) %in% \"BAResult\")])\n      BAResult <- sum(sdf$BAResult)\n      cbind(id, BAResult)\n    })\n  })\n  \n  for(effort in c(\"SAFIT1\", \"SAFIT2\")){\n    ###Match to STE###\n    x[, effort] <- rep(NA, length(x$FinalID))\n    x[, effort] <- metadata[match(x$FinalID, metadata$FinalID), as.character(effort)]\n    x[, effort] <- as.character(x[, effort])\n    \n    \n    ###Determine Distinctiveness###\n    distinctsorter <- function(taxon, data){\n      level <- metadata$TaxonomicLevelCode[match(taxon, metadata$FinalID)] \n      levelname <- as.character(metadata$TaxonomicLevelName[match(taxon, metadata$FinalID)])\n      if(is.na(levelname))return(T)\n      samelevel <- metadata$FinalID[which(metadata[, levelname] == taxon)]\n      matchedlevel <- x[, effort] %in% metadata[match(samelevel, metadata$FinalID), effort]\n      result <- which(metadata$TaxonomicLevelCode[match(data[matchedlevel, effort], metadata$FinalID)] >= level)\n      length(result) > 1\n    }\n    distinctlist <- dlply(x, \"SampleID\", function(df){\n      sapply(1:nrow(df), function(i){\n        ifelse(distinctsorter(df[i, effort], df), \"Non-Distinct\", \"Distinct\")\n      })})\n    distinctCol <- paste(\"distinct_\", effort, sep=\"\")\n    x[, distinctCol] <- unlist(distinctlist)\n    ###Override##\n    x$DistinctCode <- as.character(x$DistinctCode)\n    if(any(!is.na(x$DistinctCode))){\n      x[which(x[, distinctCol] == \"Non-distinct\" & x$DistinctCode == \"Yes\"), distinctCol] <- \"Distinct\"\n    }\n  } \n  class(x) <- c(\"BMIagg\", \"BMI\", \"data.frame\")\n  x\n}\n\n\n",
+    "created" : 1350592629633.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3683456532",
+    "id" : "1ECB9381",
+    "lastKnownWriteTime" : 1350593233,
+    "path" : "P:/PartTimers/MarkEngeln/BMI_Metrics/R/aggregate.r",
+    "properties" : {
+        "tempName" : "Untitled3"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
