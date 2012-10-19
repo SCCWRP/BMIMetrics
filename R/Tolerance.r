@@ -82,7 +82,7 @@ Intolerant_PercentTaxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult.subsample >0, ], "SampleID", function(df){
-    nrow(df[which(df$ToleranceValue <= 2)])/nrow(df)
+    nrow(df[which(df$ToleranceValue <= 2), ])/nrow(df)
   })
 }
 
@@ -90,7 +90,7 @@ Intolerant_PercentTaxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    nrow(df[which(df$ToleranceValue <= 2)])/nrow(df)
+    nrow(df[which(df$ToleranceValue <= 2), ])/nrow(df)
   })
 }
 
@@ -98,7 +98,7 @@ Intolerant_Taxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult.subsample >0, ], "SampleID", function(df){
-    nrow(df[which(df$ToleranceValue <= 2)])
+    nrow(df[which(df$ToleranceValue <= 2), ])
   })
 }
 
@@ -106,7 +106,7 @@ Intolerant_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    nrow(df[which(df$ToleranceValue <= 2)])
+    nrow(df[which(df$ToleranceValue <= 2), ])
   })
 }
 
@@ -130,7 +130,7 @@ Tolerant_PercentTaxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult.subsample >0, ], "SampleID", function(df){
-    nrow(df[which(df$ToleranceValue >= 8)])/nrow(df)
+    nrow(df[which(df$ToleranceValue >= 8), ])/nrow(df)
   })
 }
 
@@ -138,7 +138,7 @@ Tolerant_PercentTaxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    nrow(df[which(df$ToleranceValue >= 8)])/nrow(df)
+    nrow(df[which(df$ToleranceValue >= 8), ])/nrow(df)
   })
 }
 
@@ -146,7 +146,7 @@ Tolerant_Taxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult.subsample >0, ], "SampleID", function(df){
-    nrow(df[which(df$ToleranceValue >= 8)])
+    nrow(df[which(df$ToleranceValue >= 8), ])
   })
 }
 
@@ -154,7 +154,7 @@ Tolerant_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    nrow(df[which(df$ToleranceValue >= 8)])
+    nrow(df[which(df$ToleranceValue >= 8), ])
   })
 }
 
@@ -162,7 +162,8 @@ ToleranceValue.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    sum(df$BAResult.subsample * df$ToleranceValue)/sum(df$BAResult.subsample)
+    p <- !is.na(df$ToleranceValue)
+    sum(df$BAResult.subsample[p] * df$ToleranceValue[p], na.rm=T)/sum(df$BAResult.subsample[p])
   })
 }
 
@@ -170,6 +171,7 @@ ToleranceValue.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    sum(df$BAResult * df$ToleranceValue)/sum(df$BAResult)
+    p <- !is.na(df$ToleranceValue)
+    sum(df$BAResult[p] * df$ToleranceValue[p], na.rm=T)/sum(df$BAResult[p])
   })
 }

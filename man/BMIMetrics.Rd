@@ -11,7 +11,10 @@
   \code{\link{aggregate.BMI}}. Next make the sample size
   consistent using \code{sample}. Any of the metric
   functions can be used on objects of class \code{BMIagg}
-  or class \code{BMIprc}.
+  or class \code{BMIprc}. Metrics can be calculated using
+  individual functions (see
+  \code{help(package="BMImetrics")}), or using
+  \code{\link{BMIall}}.
 }
 \examples{
 data(bugdata)
@@ -19,13 +22,7 @@ bugdata <- BMI(bugdata)
 bugdata.agg <- aggregate(bugdata)
 bugdata.prc <- sample(bugdata.agg)
 
-Chironomidae_PercentTaxa(bugdata.prc)
-Chironomidae_PercentTaxa(bugdata.agg)
-
-Invasive_Percent(bugdata.prc)
-Invasive_Percent(bugdata.agg)
-
-Shannon_Diversity(bugdata.prc)
-Shannon_Diversity(bugdata.agg)
+metrics <- BMIall(bugdata.prc)
+View(metrics)
 }
 

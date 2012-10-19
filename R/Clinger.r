@@ -53,7 +53,7 @@ Clinger_Percent.BMIagg <- function(x){
 Clinger_PercentTaxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Habit")])
-  ddply(x[x$BAResult.subsample >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
+  ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
     length(df$SAFIT1[which(df$Habit == "CN")])/length(df$SAFIT1)
   })
 }
@@ -61,7 +61,7 @@ Clinger_PercentTaxa.BMIprc <- function(x){
 Clinger_PercentTaxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Habit")])
-  ddply(x[x$BAResult >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
+  ddply(x[x$BAResult >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
     length(df$SAFIT1[which(df$Habit == "CN")])/length(df$SAFIT1)
   })
 }
@@ -69,7 +69,7 @@ Clinger_PercentTaxa.BMIagg <- function(x){
 Clinger_Taxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Habit")])
-  ddply(x[x$BAResult.subsample >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
+  ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
     length(df$SAFIT1[which(df$Habit == "CN")])
   })
 }
@@ -77,7 +77,7 @@ Clinger_Taxa.BMIprc <- function(x){
 Clinger_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Habit")])
-  ddply(x[x$BAResult >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
+  ddply(x[x$BAResult >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
     length(df$SAFIT1[which(df$Habit == "CN")])
   })
 }

@@ -18,6 +18,7 @@
 #' @export Chironominae_PercentOfMidges
 #' @export Tanypodinae_Percent
 #' @export Tanypodinae_PercentOfMidges
+#' @export Orthocladiinae_PercentOfMidges
 #' @S3method Chironomidae_PercentTaxa BMIagg
 #' @S3method Chironomidae_Taxa BMIagg
 #' @S3method Chironominae_Percent BMIagg
@@ -30,6 +31,8 @@
 #' @S3method Chironominae_PercentOfMidges BMIprc
 #' @S3method Tanypodinae_Percent BMIprc
 #' @S3method Tanypodinae_PercentOfMidges BMIprc
+#' @S3method Orthocladiinae_PercentOfMidges BMIagg
+#' @S3method Orthocladiinae_PercentOfMidges BMIprc
 #' @import plyr
 #' @include loadMetaData.r
 
@@ -50,6 +53,10 @@ Tanypodinae_Percent <- function(x){
 }
 Tanypodinae_PercentOfMidges <- function(x){
   UseMethod("Tanypodinae_PercentOfMidges", x)
+}
+
+Orthocladiinae_PercentOfMidges <- function(x){
+  UseMethod("Orthocladiinae_PercentOfMidges", x)
 }
 
 
@@ -80,7 +87,7 @@ Chironomidae_Taxa.BMIprc <- function(x){
 Chironomidae_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Family")])
-  ddply(x[x$BAResult.subsample >0, ], "SampleID", function(df){
+  ddply(x[x$BAResult >0, ], "SampleID", function(df){
     length(df$SAFIT2[which(df$Family == "Chironomidae")])
   })
 }

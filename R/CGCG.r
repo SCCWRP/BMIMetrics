@@ -53,31 +53,31 @@ CFCG_Percent.BMIagg <- function(x){
 CFCG_PercentTaxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
-  ddply(x[x$BAResult.subsample >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup %in% c("CF", "CG"))])/nrow(df)
+  ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT2 == "Distinct",], "SampleID", function(df){
+    nrow(df[which(df$FunctionalFeedingGroup %in% c("CF", "CG")), ])/nrow(df)
   })
 }
 
 CFCG_PercentTaxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
-  ddply(x[x$BAResult >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup %in% c("CF", "CG"))])/nrow(df)
+  ddply(x[x$BAResult >0 & x$distinct_SAFIT2 == "Distinct",], "SampleID", function(df){
+    nrow(df[which(df$FunctionalFeedingGroup %in% c("CF", "CG")), ])/nrow(df)
   })
 }
 
 CFCG_Taxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
-  ddply(x[x$BAResult.subsample >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup %in% c("CF", "CG"))])
+  ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT2 == "Distinct",], "SampleID", function(df){
+    nrow(df[which(df$FunctionalFeedingGroup %in% c("CF", "CG")), ])
   })
 }
 
 CFCG_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
-  ddply(x[x$BAResult >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup %in% c("CF", "CG"))])
+  ddply(x[x$BAResult >0 & x$distinct_SAFIT2 == "Distinct", ], "SampleID", function(df){
+    nrow(df[which(df$FunctionalFeedingGroup %in% c("CF", "CG")), ])
   })
 }

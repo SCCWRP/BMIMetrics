@@ -44,7 +44,7 @@ aggregate.BMI <- function(x){
     ###Override##
     x$DistinctCode <- as.character(x$DistinctCode)
     if(any(!is.na(x$DistinctCode))){
-      x[which(x[, distinctCol] == "Non-distinct" & x$DistinctCode == "Yes"), distinctCol] <- "Distinct"
+      x[which((x[, as.character(distinctCol)] == "Non-Distinct") & x$DistinctCode == "Yes"), as.character(distinctCol)] <- "Distinct"
     }
   } 
   class(x) <- c("BMIagg", "BMI", "data.frame")

@@ -53,31 +53,31 @@ Scraper_Percent.BMIagg <- function(x){
 Scraper_PercentTaxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
-  ddply(x[x$BAResult.subsample >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup == "SC")])/nrow(df)
+  ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
+    nrow(df[which(df$FunctionalFeedingGroup == "SC"), ])/nrow(df)
   })
 }
 
 Scraper_PercentTaxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
-  ddply(x[x$BAResult >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup == "SC")])/nrow(df)
+  ddply(x[x$BAResult >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
+    nrow(df[which(df$FunctionalFeedingGroup == "SC"), ])/nrow(df)
   })
 }
 
 Scraper_Taxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
-  ddply(x[x$BAResult.subsample >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup == "SC")])
+  ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
+    nrow(df[which(df$FunctionalFeedingGroup == "SC"), ])
   })
 }
 
 Scraper_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
-  ddply(x[x$BAResult >0 & x$SAFIT1== "Distinct", ], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup == "SC")])
+  ddply(x[x$BAResult >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
+    nrow(df[which(df$FunctionalFeedingGroup == "SC"), ])
   })
 }
