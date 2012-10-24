@@ -1,6 +1,6 @@
 ###Load Metadata
 
 loadMetaData <- function(){
-  load("inst/metadata.rdata")
+  load(system.file("metadata.rdata", package="BMIMetrics"))
   metadata
 }
