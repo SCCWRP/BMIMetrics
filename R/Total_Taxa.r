@@ -48,28 +48,39 @@ Total_Taxa.BMIagg <- function(x, level = "SAFIT1"){
 
 Shannon_Diversity.BMIprc <- function(x, level = "SAFIT1"){
   ddply(x[x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    community <- cast(as.formula(paste("SampleID ~", level)), data=df, fun.aggregate=sum, value="BAResult.subsample")
-    diversity(community, index="shannon")
+    if(nrow(df)==1){0} else{
+    #community <- cast(as.formula(paste("SampleID ~", level)), data=df, fun.aggregate=sum, value="BAResult.subsample")
+    diversity(df$BAResult.subsample, index="shannon")
+    }
   })
 }
 
 Shannon_Diversity.BMIagg <- function(x, level = "SAFIT1"){
   ddply(x[x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    community <- cast(as.formula(paste("SampleID ~", level)), data=df, fun.aggregate=sum, value="BAResult")
-    diversity(community, index="shannon")
+    if(nrow(df)==1){0} else{
+    #community <- cast(as.formula(paste("SampleID ~", level)), data=df, fun.aggregate=sum, value="BAResult")
+    diversity(df$BAResult, index="shannon")
+    }
   })
 }
 
 Simpson_Diversity.BMIprc <- function(x, level = "SAFIT1"){
   ddply(x[x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    community <- cast(as.formula(paste("SampleID ~", level)), data=df, fun.aggregate=sum, value="BAResult.subsample")
-    diversity(community, index="simpson")
+    if(nrow(df)==1){0} else{
+    #community <- cast(as.formula(paste("SampleID ~", level)), data=df, fun.aggregate=sum, value="BAResult.subsample")
+    diversity(df$BAResult.subsample, index="simpson")
+    }
   })
 }
 
 Simpson_Diversity.BMIagg <- function(x, level = "SAFIT1"){
   ddply(x[x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    community <- cast(as.formula(paste("SampleID ~", level)), data=df, fun.aggregate=sum, value="BAResult")
-    diversity(community, index="simpson")
+    if(nrow(df)==1){0} else{
+    #community <- cast(as.formula(paste("SampleID ~", level)), data=df, fun.aggregate=sum, value="BAResult")
+    diversity(df$BAResult, index="simpson")
+    }
   })
 }
+
+
+

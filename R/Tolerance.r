@@ -163,7 +163,7 @@ ToleranceValue.BMIprc <- function(x){
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
     p <- !is.na(df$ToleranceValue)
-    sum(df$BAResult.subsample[p] * df$ToleranceValue[p], na.rm=T)/sum(df$BAResult.subsample[p])
+    sum(df$BAResult.subsample[p] * as.numeric(df$ToleranceValue[p]), na.rm=T)/sum(df$BAResult.subsample[p])
   })
 }
 
@@ -172,6 +172,6 @@ ToleranceValue.BMIagg <- function(x){
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "ToleranceValue")])
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
     p <- !is.na(df$ToleranceValue)
-    sum(df$BAResult[p] * df$ToleranceValue[p], na.rm=T)/sum(df$BAResult[p])
+    sum(df$BAResult[p] * as.numeric(df$ToleranceValue[p]), na.rm=T)/sum(df$BAResult[p])
   })
 }
