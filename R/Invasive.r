@@ -53,7 +53,7 @@ Invasive_PercentTaxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x$Invasive <- metadata$Invasive[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult.subsample >0, ], "SampleID", function(df){
-    nrow(df[df$Invasive ==1 ,])/nrow(df)
+    nrow(df[!duplicated(df$SAFIT2) & df$Invasive ==1 ,])/nrow(df[!duplicated(df[, "SAFIT2"]),])
   })
 }
 
@@ -61,7 +61,7 @@ Invasive_PercentTaxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x$Invasive <- metadata$Invasive[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    nrow(df[df$Invasive ==1, ])/nrow(df)
+    nrow(df[!duplicated(df$SAFIT2) & df$Invasive ==1, ])/nrow(df[!duplicated(df[, "SAFIT2"]),])
   })
 }
 
@@ -69,7 +69,7 @@ Invasive_Taxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x$Invasive <- metadata$Invasive[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult.subsample >0, ], "SampleID", function(df){
-    nrow(df[df$Invasive ==1, ])
+    nrow(df[!duplicated(df$SAFIT2) & df$Invasive ==1, ])
   })
 }
 
@@ -77,6 +77,6 @@ Invasive_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x$Invasive <- metadata$Invasive[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    nrow(df[df$Invasive ==1, ])
+    nrow(df[!duplicated(df$SAFIT2) & df$Invasive ==1, ])
   })
 }

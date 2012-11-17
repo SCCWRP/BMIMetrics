@@ -54,7 +54,7 @@ EPT_PercentTaxa.BMIprc <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Order <- metadata$Order[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult.subsample >0 & x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    length(df[df$Order %in% c("Ephemeroptera", "Trichoptera", "Plecoptera"), "SAFIT1"])/nrow(df)
+    length(unique(df[df$Order %in% c("Ephemeroptera", "Trichoptera", "Plecoptera"), level]))/nrow(df[!duplicated(df[, level]),])
   })
 }
 
@@ -62,7 +62,7 @@ EPT_PercentTaxa.BMIagg <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Order <- metadata$Order[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult >0 & x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    length(df[df$Order %in% c("Ephemeroptera", "Trichoptera", "Plecoptera"), "SAFIT1"])/nrow(df)
+    length(unique(df[df$Order %in% c("Ephemeroptera", "Trichoptera", "Plecoptera"), level]))/nrow(df[!duplicated(df[, level]),])
   })
 }
 
@@ -70,7 +70,7 @@ EPT_Taxa.BMIprc <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Order <- metadata$Order[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult.subsample >0 & x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    length(df[df$Order %in% c("Ephemeroptera", "Trichoptera", "Plecoptera"), "SAFIT1"])
+    length(unique(df[df$Order %in% c("Ephemeroptera", "Trichoptera", "Plecoptera"), level]))
   })
 }
 
@@ -78,6 +78,6 @@ EPT_Taxa.BMIagg <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Order <- metadata$Order[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult >0 & x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    length(df[df$Order %in% c("Ephemeroptera", "Trichoptera", "Plecoptera"), "SAFIT1"])
+    length(unique(df[df$Order %in% c("Ephemeroptera", "Trichoptera", "Plecoptera"), level]))
   })
 }

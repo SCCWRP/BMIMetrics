@@ -36,13 +36,13 @@ Simpson_Diversity <- function(x, level){
 
 Total_Taxa.BMIprc <- function(x, level = "SAFIT1"){
   ddply(x[x$BAResult.subsample >0 & x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    nrow(df)
+    nrow(df[!duplicated(df[, level]),])
   })
 }
 
 Total_Taxa.BMIagg <- function(x, level = "SAFIT1"){
   ddply(x[x$BAResult >0 & x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    nrow(df)
+    nrow(df[!duplicated(df[, level]),])
   })
 }
 

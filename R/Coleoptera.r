@@ -53,7 +53,7 @@ Coleoptera_PercentTaxa.BMIprc <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Order <- metadata$Order[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult.subsample >0, ], "SampleID", function(df){
-    length(df[df$Order =="Coleoptera", "SAFIT1"])/nrow(df)
+    length(unique(df[df$Order =="Coleoptera", level]))/nrow(df[!duplicated(df[, level]),])
   })
 }
 
@@ -61,7 +61,7 @@ Coleoptera_PercentTaxa.BMIagg <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Order <- metadata$Order[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    length(df[df$Order =="Coleoptera", "SAFIT1"])/nrow(df)
+    length(unique(df[df$Order =="Coleoptera", level]))/nrow(df[!duplicated(df[, level]),])
   })
 }
 
@@ -69,7 +69,7 @@ Coleoptera_Taxa.BMIprc <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Order <- metadata$Order[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult.subsample >0, ], "SampleID", function(df){
-    length(df[df$Order =="Coleoptera", "SAFIT1"])
+    length(unique(df[df$Order =="Coleoptera", level]))
   })
 }
 
@@ -77,6 +77,6 @@ Coleoptera_Taxa.BMIagg <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Order <- metadata$Order[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    length(df[df$Order =="Coleoptera", "SAFIT1"])
+    length(unique(df[df$Order =="Coleoptera", level]))
   })
 }

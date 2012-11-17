@@ -54,7 +54,7 @@ Burrower_PercentTaxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Habit")])
   ddply(x[x$BAResult >0 & x$distinct_SAFIT2 == "Distinct",], "SampleID", function(df){
-    nrow(df[which(df$Habit =="BU"), ])/nrow(df)
+    nrow(df[!duplicated(df$SAFIT2) & df$Habit =="BU", ])/nrow(df[!duplicated(df[, "SAFIT2"]),])
   })
 }
 
@@ -62,7 +62,7 @@ Burrower_PercentTaxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Habit")])
   ddply(x[x$BAResult >0 & x$distinct_SAFIT2 == "Distinct",], "SampleID", function(df){
-    nrow(df[which(df$Habit =="BU"), ])/nrow(df)
+    nrow(df[!duplicated(df$SAFIT2) & df$Habit =="BU", ])/nrow(df[!duplicated(df[, "SAFIT2"]),])
   })
 }
 
@@ -70,7 +70,7 @@ Burrower_Taxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Habit")])
   ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT2 == "Distinct",], "SampleID", function(df){
-    nrow(df[which(df$Habit =="BU"), ])
+    nrow(df[!duplicated(df$SAFIT2) & df$Habit =="BU", ])
   })
 }
 
@@ -78,6 +78,6 @@ Burrower_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Habit")])
   ddply(x[x$BAResult >0 & x$distinct_SAFIT2 == "Distinct",], "SampleID", function(df){
-    nrow(df[which(df$Habit =="BU"), ])
+    nrow(df[!duplicated(df$SAFIT2) & df$Habit =="BU", ])
   })
 }

@@ -80,7 +80,7 @@ Chironomidae_Taxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Family")])
   ddply(x[x$BAResult.subsample >0, ], "SampleID", function(df){
-    length(df$SAFIT2[which(df$Family == "Chironomidae")])
+    length(unique(df$SAFIT2[which(df$Family == "Chironomidae")]))
   })
 }
 
@@ -88,7 +88,7 @@ Chironomidae_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "Family")])
   ddply(x[x$BAResult >0, ], "SampleID", function(df){
-    length(df$SAFIT2[which(df$Family == "Chironomidae")])
+    length(unique(df$SAFIT2[which(df$Family == "Chironomidae")]))
   })
 }
 

@@ -54,7 +54,7 @@ Shredder_PercentTaxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
   ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup == "SH"), ])/nrow(df)
+    nrow(df[which(!duplicated(df$SAFIT1) & df$FunctionalFeedingGroup == "SH"), ])/nrow(df[!duplicated(df[, "SAFIT1"]),])
   })
 }
 
@@ -62,7 +62,7 @@ Shredder_PercentTaxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
   ddply(x[x$BAResult >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup == "SH"), ])/nrow(df)
+    nrow(df[which(!duplicated(df$SAFIT1) & df$FunctionalFeedingGroup == "SH"), ])/nrow(df[!duplicated(df[, "SAFIT1"]),])
   })
 }
 
@@ -70,7 +70,7 @@ Shredder_Taxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
   ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup == "SH"), ])
+    nrow(df[which(!duplicated(df$SAFIT1) & df$FunctionalFeedingGroup == "SH"), ])
   })
 }
 
@@ -78,6 +78,6 @@ Shredder_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x <- merge(x, metadata[, c("FinalID", "LifeStageCode", "FunctionalFeedingGroup")])
   ddply(x[x$BAResult >0 & x$distinct_SAFIT1 == "Distinct",], "SampleID", function(df){
-    nrow(df[which(df$FunctionalFeedingGroup == "SH"), ])
+    nrow(df[which(!duplicated(df$SAFIT1) & df$FunctionalFeedingGroup == "SH"), ])
   })
 }

@@ -54,7 +54,7 @@ Noninsect_PercentTaxa.BMIprc <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Class <- metadata$Class[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult.subsample >0 & x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    length(df[df$Class != "Insecta", "SAFIT1"])/nrow(df)
+    length(unique(df[df$Class != "Insecta", level]))/nrow(df[!duplicated(df[, level]),])
   })
 }
 
@@ -62,7 +62,7 @@ Noninsect_PercentTaxa.BMIagg <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Class <- metadata$Class[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult >0 & x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    length(df[df$Class != "Insecta", "SAFIT1"])/nrow(df)
+    length(unique(df[df$Class != "Insecta", level]))/nrow(df[!duplicated(df[, level]),])
   })
 }
 
@@ -70,7 +70,7 @@ Noninsect_Taxa.BMIprc <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Class <- metadata$Class[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult.subsample >0 & x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    length(df[df$Class != "Insecta", "SAFIT1"])
+    length(unique(df[df$Class != "Insecta", level]))
   })
 }
 
@@ -78,6 +78,6 @@ Noninsect_Taxa.BMIagg <- function(x, level = "SAFIT1"){
   metadata <- loadMetaData()
   x$Class <- metadata$Class[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult >0 & x[, paste("distinct_", level, sep="")] == "Distinct", ], "SampleID", function(df){
-    length(df[df$Class != "Insecta", "SAFIT1"])
+    length(unique(df[df$Class != "Insecta", level]))
   })
 }

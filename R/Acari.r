@@ -51,7 +51,7 @@ Acari_PercentTaxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x$Subclass <- metadata$Subclass[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT2 == "Distinct",], "SampleID", function(df){
-    nrow(df[df$Subclass =="Acari", ])/nrow(df)
+    nrow(df[!duplicated(df$SAFIT2) & df$Subclass =="Acari", ])/nrow(df[!duplicated(df[, "SAFIT2"]),])
   })
 }
 
@@ -59,7 +59,7 @@ Acari_PercentTaxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x$Subclass <- metadata$Subclass[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult >0 & x$distinct_SAFIT2 == "Distinct", ], "SampleID", function(df){
-    nrow(df[df$Subclass =="Acari", ])/nrow(df)
+    nrow(df[!duplicated(df$SAFIT2) & df$Subclass =="Acari", ])/nrow(df[!duplicated(df[, "SAFIT2"]),])
   })
 }
 
@@ -67,7 +67,7 @@ Acari_Taxa.BMIprc <- function(x){
   metadata <- loadMetaData()
   x$Subclass <- metadata$Subclass[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult.subsample >0 & x$distinct_SAFIT2 == "Distinct",], "SampleID", function(df){
-    nrow(df[df$Subclass =="Acari", ])
+    nrow(df[!duplicated(df$SAFIT2) & df$Subclass =="Acari", ])
   })
 }
 
@@ -75,6 +75,6 @@ Acari_Taxa.BMIagg <- function(x){
   metadata <- loadMetaData()
   x$Subclass <- metadata$Subclass[match(x$FinalID, metadata$FinalID)]
   ddply(x[x$BAResult >0 & x$distinct_SAFIT2 == "Distinct",], "SampleID", function(df){
-    nrow(df[df$Subclass =="Acari",])
+    nrow(df[!duplicated(df$SAFIT2) & df$Subclass =="Acari",])
   })
 }
