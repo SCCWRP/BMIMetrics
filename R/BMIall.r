@@ -135,6 +135,7 @@ BMIall <- function(x){
     Trichoptera_Taxa(x, level="SAFIT1"),
     Trichoptera_Taxa(x, level="SAFIT2")
     )
+  result <- data.frame(result)
   result <- result[, -(seq.int(3, 173, by=2))] 
    colnames(result) <- c("SampleID",
                        "Acari_Percent",

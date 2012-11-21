@@ -6,5 +6,5 @@ test_that("Metadata loaded properly", {
 
 test_that("Metadata has proper dimensions", {
   expect_that(nrow(metadata), equals(8627))
-  expect_that(ncol(metadata), equals(32))
+  expect_that(ncol(metadata), equals(34))
 })
