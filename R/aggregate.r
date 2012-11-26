@@ -49,6 +49,8 @@ aggregate.BMI <- function(x){
     ###Distinctiveness for those already above SAFIT aggregation (Check for nested taxa)
     ###Technically, this step could handle everything the first step did, but it's much slower due
     ###to having to reference the metadata repeatedly
+    x$LifeStageCode <- as.factor(x$LifeStageCode)
+    
     x <- ddply(x, "SampleID", function(df){
       nestcheck <- is.na(df[, paste("distinct_", effort, sep="")])
       if(sum(nestcheck)==0)df else{
@@ -57,12 +59,11 @@ aggregate.BMI <- function(x){
                                 as.character(metadata$TaxonomicLevelName[match(df$FinalID[i], metadata$FinalID)])] %in% df$FinalID[i]
           if(sum(nestmatch) > 2){
             "Non-Distinct"} else 
-              if(sum(nestmatch) == 1) "Distinct" else
-                if((df$FinalID[i] == df$FinalID[setdiff(which(nestmatch), i)]) & 
-                   (df$LifeStageCode[i] < df$LifeStageCode[setdiff(which(nestmatch), i)])){
-               "Non-Distinct"
-              } else
-            {"Distinct"}
+              if(sum(nestmatch) == 2 && sum(df$FinalID %in% df[i, "FinalID"]) == 2 &&
+                   as.numeric(df$LifeStageCode[i]) == 
+                   min(as.numeric(df$LifeStageCode[df$FinalID %in% df[i, "FinalID"]]))){"Distinct"} else
+                     if(sum(nestmatch) == 2){"Non-Distinct"} else
+                     {"Distinct"}
         })
         df
       }
