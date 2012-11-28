@@ -40,7 +40,7 @@ Ostracoda_Percent.BMIprc <- function(x){
   metadata <- loadMetaData()
   x$Class <- metadata$Class[match(x$FinalID, metadata$FinalID)]
   ddply(x, "SampleID", function(df){
-    sum(df$BAResult.subsample[df$Class =="Crustacea"])/sum(df$BAResult.subsample)
+    sum(df$BAResult.subsample[df$Class =="Ostracoda"])/sum(df$BAResult.subsample)
   })
 }
 
@@ -48,6 +48,6 @@ Ostracoda_Percent.BMIagg <- function(x){
   metadata <- loadMetaData()
   x$Class <- metadata$Class[match(x$FinalID, metadata$FinalID)]
   ddply(x, "SampleID", function(df){
-    sum(df$BAResult[df$Class =="Crustacea"])/sum(df$BAResult)
+    sum(df$BAResult[df$Class =="Ostracoda"])/sum(df$BAResult)
   })
 }

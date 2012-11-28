@@ -44,7 +44,7 @@ aggregate.BMI <- function(x){
     x <- merge(x, x.aggup, all=T)
 
     ###Taxonomist Overide###
-    x[is.na(x[, paste("distinct_", effort, sep="")]) & x$DistinctCode == 1, paste("distinct_", effort, sep="")] <- "Distinct"
+    x[is.na(x[, paste("distinct_", effort, sep="")]) & x$DistinctCode > 0, paste("distinct_", effort, sep="")] <- "Distinct"
 
     ###Distinctiveness for those already above SAFIT aggregation (Check for nested taxa)
     ###Technically, this step could handle everything the first step did, but it's much slower due
@@ -70,6 +70,8 @@ aggregate.BMI <- function(x){
       
     })
   } 
+  x <- merge(x, metadata[, c("SAFIT2", "LifeStageCode", "FunctionalFeedingGroup", "Subphylum", "Class", "Subclass", "Order",
+                             "Family", "Subfamily", "Invasive", "ToleranceValue", "Habit")])
   x <- arrange(x, SampleID, SAFIT1) #put the data frame rows in a nice order for reading
   class(x) <- c("BMIagg", "BMI", "data.frame") #assign a class so metric functions know what to do with it
   x
