@@ -3,12 +3,15 @@
 #' Computes all available BMI metrics.
 #' 
 #' @param x An object of class BMIagg or BMIprc
-#' @export BMIall2
+#' @export BMIall
 #' @import data.table
 #' @import vegan
+#' @import plyr
 
-BMIall2 <- function(x, effort="SAFIT2"){
-  x <- data.table(x)
+BMIall <- function(x, effort=2){
+  stopifnot(class(x)=="BMIagg")
+  x <- data.table(x[[effort]])
+  if(effort==1)x <- rename(x, c("distinct_SAFIT2" = "iggdistinct_SAFIT2", "distinct_SAFIT1" = "distinct_SAFIT2"))
   result <- x[, list(
     ###Community Metrics###
     Invasive_Percent = sum(BAResult[Invasive == 1])/sum(BAResult),
@@ -17,7 +20,7 @@ BMIall2 <- function(x, effort="SAFIT2"){
     Taxonomic_Richness = nrow(.SD[distinct_SAFIT2=="Distinct"]),
     Shannon_Diversity = diversity(BAResult[distinct_SAFIT2=="Distinct"], index= "shannon"),
     Simpson_Diversity = diversity(BAResult[distinct_SAFIT2=="Distinct"], index= "simpson"),
-    Dominant_Percent = sum(head(BAResult, 3))/sum(BAResult),
+    Dominant_Percent = sum(tail(sort(BAResult), 3))/sum(BAResult),
     ###Tolerance Metrics###
     Intolerant_Percent = sum(BAResult[which(ToleranceValue <= 2)])/sum(BAResult),
     Intolerant_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & ToleranceValue <= 2])/nrow(.SD[distinct_SAFIT2=="Distinct"]),
@@ -54,23 +57,23 @@ BMIall2 <- function(x, effort="SAFIT2"){
     Swimmer_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "SW")]),
     ###Insect Order Metrics###
     Coleoptera_Percent = sum(BAResult[Order == "Coleoptera"])/sum(BAResult),
-    Coleoptera_PercentTaxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order == "Coleoptera")])/nrow(.SD[distinct_SAFIT1=="Distinct"]), 
-    Coleoptera_Taxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order == "Coleoptera")]),
+    Coleoptera_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order == "Coleoptera")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
+    Coleoptera_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order == "Coleoptera")]),
     Diptera_Percent = sum(BAResult[Order == "Diptera"])/sum(BAResult),
-    Diptera_PercentTaxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order == "Diptera")])/nrow(.SD[distinct_SAFIT1=="Distinct"]), 
-    Diptera_Taxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order == "Diptera")]),
+    Diptera_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order == "Diptera")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
+    Diptera_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order == "Diptera")]),
     Ephemeroptera_Percent = sum(BAResult[Order == "Ephemeroptera"])/sum(BAResult),
-    Ephemeroptera_PercentTaxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order == "Ephemeroptera")])/nrow(.SD[distinct_SAFIT1=="Distinct"]), 
-    Ephemeroptera_Taxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order == "Ephemeroptera")]),
+    Ephemeroptera_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order == "Ephemeroptera")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
+    Ephemeroptera_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order == "Ephemeroptera")]),
     EPT_Percent = sum(BAResult[Order %in% c("Ephemeroptera", "Plecoptera", "Trichoptera")])/sum(BAResult),
-    EPT_PercentTaxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order %in% c("Ephemeroptera", "Plecoptera", "Trichoptera"))])/nrow(.SD[distinct_SAFIT1=="Distinct"]), 
-    EPT_Taxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order %in% c("Ephemeroptera", "Plecoptera", "Trichoptera"))]),
+    EPT_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order %in% c("Ephemeroptera", "Plecoptera", "Trichoptera"))])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
+    EPT_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order %in% c("Ephemeroptera", "Plecoptera", "Trichoptera"))]),
     Plecoptera_Percent = sum(BAResult[Order == "Plecoptera"])/sum(BAResult),
-    Plecoptera_PercentTaxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order == "Plecoptera")])/nrow(.SD[distinct_SAFIT1=="Distinct"]), 
-    Plecoptera_Taxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order == "Plecoptera")]),
+    Plecoptera_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order == "Plecoptera")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
+    Plecoptera_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order == "Plecoptera")]),
     Trichoptera_Percent = sum(BAResult[Order == "Trichoptera"])/sum(BAResult),
-    Trichoptera_PercentTaxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order == "Trichoptera")])/nrow(.SD[distinct_SAFIT1=="Distinct"]), 
-    Trichoptera_Taxa = nrow(.SD[distinct_SAFIT1=="Distinct" & (Order == "Trichoptera")]),
+    Trichoptera_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order == "Trichoptera")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
+    Trichoptera_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Order == "Trichoptera")]),
     ###Chironomid Taxa Metrics###
     Chironomidae_Percent = sum(BAResult[Family == "Chironomidae"])/sum(BAResult),
     Chironomidae_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Family == "Chironomidae")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
@@ -78,15 +81,15 @@ BMIall2 <- function(x, effort="SAFIT2"){
     Chironominae_Percent = sum(BAResult[Subfamily == "Chironominae"])/sum(BAResult),
     Chironominae_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Subfamily == "Chironominae")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
     Chironominae_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Subfamily == "Chironominae")]),
-    Chironominae_PercentOfMides = sum(BAResult[Subfamily == "Chironominae"])/sum(BAResult[Family == "Chironomidae"]),
+    Chironominae_PercentOfMidges = sum(BAResult[Subfamily == "Chironominae"])/sum(BAResult[Family == "Chironomidae"]),
     Tanypodinae_Percent = sum(BAResult[Subfamily == "Tanypodinae"])/sum(BAResult),
     Tanypodinae_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Subfamily == "Tanypodinae")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
     Tanypodinae_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Subfamily == "Tanypodinae")]),
-    Tanypodinae_PercentOfMides = sum(BAResult[Subfamily == "Tanypodinae"])/sum(BAResult[Family == "Chironomidae"]),
+    Tanypodinae_PercentOfMidges = sum(BAResult[Subfamily == "Tanypodinae"])/sum(BAResult[Family == "Chironomidae"]),
     Orthocladiinae_Percent = sum(BAResult[Subfamily == "Orthocladiinae"])/sum(BAResult),
     Orthocladiinae_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Subfamily == "Orthocladiinae")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
     Orthocladiinae_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Subfamily == "Orthocladiinae")]),
-    Orthocladiinae_PercentOfMides = sum(BAResult[Subfamily == "Orthocladiinae"])/sum(BAResult[Family == "Chironomidae"]),
+    Orthocladiinae_PercentOfMidges = sum(BAResult[Subfamily == "Orthocladiinae"])/sum(BAResult[Family == "Chironomidae"]),
     ###Other Taxa Metrics###
     Acari_Percent = sum(BAResult[Subclass == "Acari"])/sum(BAResult),
     Acari_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Subclass == "Acari")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 

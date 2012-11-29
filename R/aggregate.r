@@ -14,7 +14,8 @@ aggregate.BMI <- function(x){
   metadata <- loadMetaData()
   
   ###Clean up###
-  x <- x[, names(x) %in% c("StationCode", "SampleDate", "Replicate", "SampleID", "FinalID", "LifeStageCode", "BAResult", "DistinctCode")]
+  x <- x[, names(x) %in% c("StationCode", "SampleDate", "Replicate", "SampleID", "FinalID",
+                           "LifeStageCode", "BAResult", "originalBAResult", "DistinctCode")]
   x$DistinctCode[is.na(x$DistinctCode)] <- 0
   
   ###Merge in metadata FinalID###
@@ -22,8 +23,8 @@ aggregate.BMI <- function(x){
                              "SAFIT1_effortlevel", "SAFIT2_effortlevel")], by=c("FinalID", "LifeStageCode"), type="left")
   x <- na.omit(x) 
 
-  
-  for(effort in c("SAFIT1", "SAFIT2")){
+
+  agglist <- lapply(c("SAFIT1", "SAFIT2"), function(effort){
     
     ###Distinctiveness for those aggregated up, i.e. 
     ###FinalIDs that are higher resolution than SAFIT1/2
@@ -41,7 +42,7 @@ aggregate.BMI <- function(x){
       })
     })
 
-    x <- merge(x, x.aggup, all=T)
+    x <- join(x, x.aggup, type="full", match="first")
 
     ###Taxonomist Overide###
     x[is.na(x[, paste("distinct_", effort, sep="")]) & x$DistinctCode > 0, paste("distinct_", effort, sep="")] <- "Distinct"
@@ -69,12 +70,21 @@ aggregate.BMI <- function(x){
       }
       
     })
-  } 
-  x <- merge(x, metadata[, c("SAFIT2", "LifeStageCode", "FunctionalFeedingGroup", "Subphylum", "Class", "Subclass", "Order",
-                             "Family", "Subfamily", "Invasive", "ToleranceValue", "Habit")])
+   
+
+  metadata$merge <- paste(metadata$FinalID, metadata$LifeStageCode)
+  x$merge <- paste(x$SAFIT2, x$LifeStageCode)
+#   x <- join(x, unique(metadata[, c("merge", "FunctionalFeedingGroup", "Subphylum", "Class", "Subclass", "Order",
+#                              "Family", "Subfamily", "Invasive", "ToleranceValue", "Habit")]),
+#              by="merge", type="inner")
+  x <- cbind(x, metadata[match(x$merge, metadata$merge), 
+                         c("FunctionalFeedingGroup", "Subphylum", "Class", "Subclass", "Order",
+                           "Family", "Subfamily", "Invasive", "ToleranceValue", "Habit")])
   x <- arrange(x, SampleID, SAFIT1) #put the data frame rows in a nice order for reading
-  class(x) <- c("BMIagg", "BMI", "data.frame") #assign a class so metric functions know what to do with it
-  x
+  })
+  class(agglist) <- c("BMIagg") #assign a class so metric functions know what to do with it
+
+  agglist
 }
 
 

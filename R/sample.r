@@ -4,7 +4,6 @@
 #' 
 #' @param x An object of class BMIagg
 #' @S3method sample BMI
-#' @S3method sample BMIagg
 #' @S3method sample default
 #' @export 
 #' @import vegan
@@ -30,17 +29,15 @@ sample.default <- function (x, size, replace = FALSE, prob = NULL)
 }
 
 sample.BMI <- function(x){
-  print("Aggregate data before subsampling.")
-}
-
-sample.BMIagg <- function(x){
   x$SampleID <- as.character(x$SampleID)
+  x$originalBAResult <- x$BAResult
   rarifydown <- function(data){unlist(sapply(unique(data$SampleID), function(sample){
     v <- data[data$SampleID==sample, "BAResult"]
     if(sum(v)>=500){rrarefy(v, 500)} else
     {v}
   }))}
-  x$BAResult.subsample <- rarifydown(x)
-  class(x) <- c("BMIprc", "BMIagg", "BMI", "data.frame")
+  x$BAResult <- rarifydown(x)
+  x <- subset(x, BAResult != 0)
+  class(x) <- c("BMIsub", "BMI", "data.frame")
   x
 }
