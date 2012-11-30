@@ -73,10 +73,7 @@ aggregate.BMI <- function(x){
    
 
   metadata$merge <- paste(metadata$FinalID, metadata$LifeStageCode)
-  x$merge <- paste(x$SAFIT2, x$LifeStageCode)
-#   x <- join(x, unique(metadata[, c("merge", "FunctionalFeedingGroup", "Subphylum", "Class", "Subclass", "Order",
-#                              "Family", "Subfamily", "Invasive", "ToleranceValue", "Habit")]),
-#              by="merge", type="inner")
+  x$merge <- paste(x[, effort], x$LifeStageCode)
   x <- cbind(x, metadata[match(x$merge, metadata$merge), 
                          c("FunctionalFeedingGroup", "Subphylum", "Class", "Subclass", "Order",
                            "Family", "Subfamily", "Invasive", "ToleranceValue", "Habit")])

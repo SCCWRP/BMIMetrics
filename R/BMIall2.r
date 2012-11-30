@@ -11,16 +11,16 @@
 BMIall <- function(x, effort=2){
   stopifnot(class(x)=="BMIagg")
   x <- data.table(x[[effort]])
-  if(effort==1)x <- rename(x, c("distinct_SAFIT2" = "iggdistinct_SAFIT2", "distinct_SAFIT1" = "distinct_SAFIT2"))
+  if(effort==1)x <- rename(x, c("distinct_SAFIT1" = "distinct_SAFIT2", "SAFIT2" = "iggSAFIT2", "SAFIT1" = "SAFIT2"))
   result <- x[, list(
     ###Community Metrics###
     Invasive_Percent = sum(BAResult[Invasive == 1])/sum(BAResult),
     Invasive_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Invasive == 1)])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
     Invasive_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Invasive == 1)]),
     Taxonomic_Richness = nrow(.SD[distinct_SAFIT2=="Distinct"]),
-    Shannon_Diversity = diversity(BAResult[distinct_SAFIT2=="Distinct"], index= "shannon"),
-    Simpson_Diversity = diversity(BAResult[distinct_SAFIT2=="Distinct"], index= "simpson"),
-    Dominant_Percent = sum(tail(sort(BAResult), 3))/sum(BAResult),
+    Shannon_Diversity = diversity(tapply(BAResult, SAFIT2, sum), index= "shannon"),
+    Simpson_Diversity = diversity(tapply(BAResult, SAFIT2, sum), index= "simpson"),
+    Dominant_Percent = sum(tail(sort(tapply(BAResult, SAFIT2, sum)), 3))/sum(BAResult),
     ###Tolerance Metrics###
     Intolerant_Percent = sum(BAResult[which(ToleranceValue <= 2)])/sum(BAResult),
     Intolerant_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & ToleranceValue <= 2])/nrow(.SD[distinct_SAFIT2=="Distinct"]),
