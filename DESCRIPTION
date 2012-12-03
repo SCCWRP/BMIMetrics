@@ -21,3 +21,4 @@ Collate:
     'BMIMetrics.r'
     'bugdata.r'
     'BMIall2.r'
+    'BMIselect.r'

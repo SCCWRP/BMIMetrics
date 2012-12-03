@@ -11,6 +11,8 @@
 BMIall <- function(x, effort=2){
   stopifnot("BMIagg" %in% class(x))
   x <- data.table(x[[effort]])
+  x$SAFIT2 <- as.character(x$SAFIT2)
+  x$Habit <- as.character(x$Habit)
   if(effort==1)x <- rename(x, c("distinct_SAFIT1" = "distinct_SAFIT2", "SAFIT2" = "iggSAFIT2", "SAFIT1" = "SAFIT2"))
   result <- x[, list(
     ###Community Metrics###
@@ -18,8 +20,8 @@ BMIall <- function(x, effort=2){
     Invasive_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Invasive == 1)])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
     Invasive_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Invasive == 1)]),
     Taxonomic_Richness = nrow(.SD[distinct_SAFIT2=="Distinct"]),
-    Shannon_Diversity = diversity(tapply(BAResult, droplevels(SAFIT2), sum), index= "shannon"),
-    Simpson_Diversity = diversity(tapply(BAResult, droplevels(SAFIT2), sum), index= "simpson"),
+    Shannon_Diversity = diversity(tapply(BAResult, SAFIT2, sum), index= "shannon"),
+    Simpson_Diversity = diversity(tapply(BAResult, SAFIT2, sum), index= "simpson"),
     Dominant_Percent = sum(tail(sort(tapply(BAResult, SAFIT2, sum)), 3))/sum(BAResult),
     ###Tolerance Metrics###
     Intolerant_Percent = sum(BAResult[which(ToleranceValue <= 2)])/sum(BAResult),
@@ -43,17 +45,17 @@ BMIall <- function(x, effort=2){
     Shredder_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (FunctionalFeedingGroup == "SH")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
     Shredder_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (FunctionalFeedingGroup == "SH")]),
     ###Habit Group Metrics###
-    Burrower_Percent = sum(BAResult[which(Habit == "BU")])/sum(BAResult),
-    Burrower_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "BU")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
+    Burrower_Percent = sum(BAResult[!is.na(Habit) & Habit == "BU"])/sum(BAResult[!is.na(Habit)]),
+    Burrower_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "BU")])/nrow(.SD[distinct_SAFIT2=="Distinct" & !is.na(Habit)]), 
     Burrower_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "BU")]),
-    Climber_Percent = sum(BAResult[which(Habit == "CB")])/sum(BAResult),
-    Climber_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "CB")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
+    Climber_Percent = sum(BAResult[!is.na(Habit) & Habit == "CB"])/sum(BAResult[!is.na(Habit)]),
+    Climber_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "CB")])/nrow(.SD[distinct_SAFIT2=="Distinct" & !is.na(Habit)]), 
     Climber_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "CB")]),
-    Clinger_Percent = sum(BAResult[which(Habit == "CN")])/sum(BAResult),
-    Clinger_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "CN")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
+    Clinger_Percent = sum(BAResult[!is.na(Habit) & Habit == "CN"])/sum(BAResult[!is.na(Habit)]),
+    Clinger_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "CN")])/nrow(.SD[distinct_SAFIT2=="Distinct" & !is.na(Habit)]), 
     Clinger_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "CN")]),
-    Swimmer_Percent = sum(BAResult[which(Habit == "SW")])/sum(BAResult),
-    Swimmer_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "SW")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
+    Swimmer_Percent = sum(BAResult[!is.na(Habit) & Habit == "SW"])/sum(BAResult[!is.na(Habit)]),
+    Swimmer_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "SW")])/nrow(.SD[distinct_SAFIT2=="Distinct" & !is.na(Habit)]), 
     Swimmer_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Habit == "SW")]),
     ###Insect Order Metrics###
     Coleoptera_Percent = sum(BAResult[Order == "Coleoptera"])/sum(BAResult),
