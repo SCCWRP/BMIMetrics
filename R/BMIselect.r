@@ -1,35 +1,28 @@
-BMIselect <- function(data, metrics, level=2){
+BMItaxaselect <- function(data, metrics, level=2){
+  loadMetaData()
   
   metricfunction <- function(name, level){
-    effort <- paste("distinct_SAFIT", level, sep="")
+    effort <- paste0("distinct_SAFIT", level)
     namesplit <- strsplit(name, "_")[[1]]
-    taxaname <- namesplit[1]
-    metriccat <- namesplit[2]
-    ifelse(any(taxaname %in% metadata$Order), category <- "Order",
-           ifelse(any(taxaname %in% metadata$FunctionalFeedingGroup), category <- "FunctionalFeedingGroup",
-                  ifelse(any(taxaname %in% metadata$Habit), category <- "Habit",
-                         ifelse(taxaname %in% c("Tanypodinae", "Orthocladiinae", "Chironominae"), category <- "Subfamily",
-                                ifelse(taxaname == "Chironomidae", category <- "Family",
-                                       ifelse(taxaname %in% c("Acari", "Oligochaeta"), category <- "Subclass",
-                                              ifelse(taxaname =="Crustacea", category <- "Subphylum",
-                                              )))))))
+    taxon <- namesplit[1]
+    metric.type <- namesplit[2]
     
-    exp <- ifelse(metriccat == "PercentTaxa", expression(nrow(df[distinct & criterion, ])/nrow(df[distinct, ])),
-                  ifelse(metriccat == "Percent", expression(sum(df$BAResult[criterion])/sum(df$BAResult)),
-                         nrow(df[distinct & criterion, ])))
-      
+    category <- as.character(metadata$TaxonomicLevelName[metadata$FinalID==taxon])[1]
     
+    exp <- switch(metric.type,
+                  "PercentTaxa" = quote(sum(distinct & criterion)/sum(distinct)),
+                  "Percent" = quote(sum(BAResult[criterion])/sum(BAResult)),
+                  "Taxa" = quote(sum(distinct & criterion))
+                  )
     function(df){
       distinct <- df[, effort] == "Distinct"
-      criterion <- df[, category] %in% taxaname
+      criterion <- df[, category] %in% taxon
       
-      eval(exp)
+      eval(exp, df)
       
     }
   }
   
-  
-  loadMetaData()
   results <- ddply(data[[level]], "SampleID", function(df){
     vapply(metrics, function(name){
       metric <- metricfunction(name, level=level)
