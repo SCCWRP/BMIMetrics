@@ -38,6 +38,7 @@ sample.BMI <- function(x){
   }))}
   x$BAResult <- rarifydown(x)
   x <- subset(x, BAResult != 0)
+  x$SampleID <- as.factor(x$SampleID)
   class(x) <- c("BMIsub", "BMI", "data.frame")
   x
 }

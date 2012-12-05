@@ -11,7 +11,6 @@
 BMIall <- function(x, effort=2){
   stopifnot("BMIagg" %in% class(x))
   x <- data.table(x[[effort]])
-  x$SAFIT2 <- as.character(x$SAFIT2)
   x$Habit <- as.character(x$Habit)
   if(effort==1)x <- rename(x, c("distinct_SAFIT1" = "distinct_SAFIT2", "SAFIT2" = "iggSAFIT2", "SAFIT1" = "SAFIT2"))
   result <- x[, list(
@@ -20,8 +19,8 @@ BMIall <- function(x, effort=2){
     Invasive_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Invasive == 1)])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
     Invasive_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (Invasive == 1)]),
     Taxonomic_Richness = nrow(.SD[distinct_SAFIT2=="Distinct"]),
-    Shannon_Diversity = diversity(tapply(BAResult, SAFIT2, sum), index= "shannon"),
-    Simpson_Diversity = diversity(tapply(BAResult, SAFIT2, sum), index= "simpson"),
+    Shannon_Diversity = diversity(tapply(BAResult, as.character(SAFIT2), sum), index= "shannon"),
+    Simpson_Diversity = diversity(tapply(BAResult, as.character(SAFIT2), sum), index= "simpson"),
     Dominant_Percent = sum(tail(sort(tapply(BAResult, SAFIT2, sum)), 3))/sum(BAResult),
     ###Tolerance Metrics###
     Intolerant_Percent = sum(BAResult[which(ToleranceValue <= 2)])/sum(BAResult),
