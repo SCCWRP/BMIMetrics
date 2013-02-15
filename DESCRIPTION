@@ -10,7 +10,6 @@ Description: Suite of metric calculators for benthic macroinvertebrate
 License: GPL-3
 Depends:
     vegan,
-    reshape,
     stringr,
     plyr,
     data.table
