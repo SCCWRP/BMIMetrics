@@ -28,12 +28,12 @@ sample.default <- function (x, size, replace = FALSE, prob = NULL)
   }
 }
 
-sample.BMI <- function(x){
+sample.BMI <- function(x, number=500){
   x$SampleID <- as.character(x$SampleID)
   x$originalBAResult <- x$BAResult
   rarifydown <- function(data){unlist(sapply(unique(data$SampleID), function(sample){
     v <- data[data$SampleID==sample, "BAResult"]
-    if(sum(v)>=500){rrarefy(v, 500)} else
+    if(sum(v)>=number){rrarefy(v, number)} else
     {v}
   }))}
   x$BAResult <- rarifydown(x)

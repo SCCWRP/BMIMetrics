@@ -12,7 +12,8 @@ Depends:
     vegan,
     reshape,
     stringr,
-    plyr
+    plyr,
+    data.table
 Collate:
     'loadMetaData.r'
     'aggregate.r'

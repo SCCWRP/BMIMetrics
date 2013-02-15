@@ -19,10 +19,10 @@
 \examples{
 data(bugdata)
 bugdata <- BMI(bugdata)
-bugdata.agg <- aggregate(bugdata)
-bugdata.prc <- sample(bugdata.agg)
+bugdata.samp <- sample(bugdata)
+bugdata.agg <- aggregate(bugdata.samp)
 
-metrics <- BMIall(bugdata.prc)
+metrics <- BMIall(bugdata.agg)
 View(metrics)
 }
 

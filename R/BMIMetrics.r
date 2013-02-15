@@ -11,14 +11,13 @@
 #' @examples
 #' data(bugdata)
 #' bugdata <- BMI(bugdata)
-#' bugdata.agg <- aggregate(bugdata)
-#' bugdata.prc <- sample(bugdata.agg)
-#' 
-#' metrics <- BMIall(bugdata.prc)
+#' bugdata.samp <- sample(bugdata)
+#' bugdata.agg <- aggregate(bugdata.samp)
+#'
+#' metrics <- BMIall(bugdata.agg)
 #' View(metrics)
 #' 
 #' @import vegan plyr stringr
-#' @importFrom reshape cast
 #' @docType package
 #' @name BMIMetrics
 #' @aliases BMIMetrics
