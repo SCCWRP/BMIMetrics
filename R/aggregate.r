@@ -43,7 +43,7 @@ aggregate.BMI <- function(x){
       })
     })
 
-    x <- join(x, x.aggup, type="full", match="first")
+    x <- suppressMessages(join(x, x.aggup, type="full", match="first"))
 
     ###Taxonomist Overide###
     x[is.na(x[, paste("distinct_", effort, sep="")]) & x$DistinctCode > 0, paste("distinct_", effort, sep="")] <- "Distinct"
