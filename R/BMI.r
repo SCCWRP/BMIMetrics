@@ -36,9 +36,9 @@ BMI <- function(x){
     casenamecheck <- paste(toupper(x$FinalID[missing]), x$LifeStageCode[missing]) %in% paste(toupper(metadata$FinalID), metadata$LifeStageCode)
     x$FinalID[missing][casenamecheck] <- 
       as.character(metadata$FinalID[match(toupper(x$FinalID[missing][casenamecheck]), toupper(metadata$FinalID))])
-    if(sum(!(which(casenamecheck) %in% which(namecheck)))>0)
-      stop("The follow FinalID/LifeStageCode combinations did not match with the internal database:",
-                 print(unique(x[!(which(casenamecheck) %in% which(namecheck)), c("FinalID", "LifeStageCode")])))
+    if(length(namecheck) != (sum(namecheck) + sum(casenamecheck)))
+      stop(c("The follow FinalID/LifeStageCode combinations did not match with the internal database:",
+                 paste(unique(paste(x$FinalID[!namecheck], x$LifeStageCode[!namecheck])), collapse=", ")))
   }
   
 
