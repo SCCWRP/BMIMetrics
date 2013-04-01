@@ -1,6 +1,7 @@
 export(aggregate.BMI)
 export(BMI)
 export(BMIall)
+export(loadMetaData)
 export(sample)
 import(data.table)
 import(plyr)
