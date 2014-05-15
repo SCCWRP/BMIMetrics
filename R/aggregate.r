@@ -8,7 +8,7 @@
 #' @include loadMetaData.r
 
 
-aggregate.BMI <- function(x){
+aggregate.BMI <- function(x, effortlevel = c("SAFIT1", "SAFIT2")){
   ###Load in metadata; this function won't work unless package is installed,
   ###but you can manually read in metadata.rdata, and then comment out this line
   metadata <- loadMetaData()
@@ -25,7 +25,7 @@ aggregate.BMI <- function(x){
   x <- na.omit(x) 
 
 
-  agglist <- lapply(c("SAFIT1", "SAFIT2"), function(effort){
+  agglist <- lapply(effortlevel, function(effort){
     
     ###Distinctiveness for those aggregated up, i.e. 
     ###FinalIDs that are higher resolution than SAFIT1/2
