@@ -22,7 +22,7 @@ aggregate.BMI <- function(x, effortlevel = c("SAFIT1", "SAFIT2")){
   x <- merge(x, metadata[, c(c("FinalID", "LifeStageCode", "TaxonomicLevelCode"),
                              effortlevel, paste0(effortlevel, "_effortlevel"))],
              by=c("FinalID", "LifeStageCode"), type="left")
-  x <- subset(x, SAFIT1 != "Exclude")
+  x <- x[apply(x[, effortlevel, drop=FALSE], 1, function(y)!any(y == "Exclude")), ]
   x <- na.omit(x) 
 
 
@@ -79,7 +79,7 @@ aggregate.BMI <- function(x, effortlevel = c("SAFIT1", "SAFIT2")){
   x <- cbind(x, metadata[match(x$merge, metadata$merge), 
                          c("FunctionalFeedingGroup", "Subphylum", "Class", "Subclass", "Order",
                            "Family", "Subfamily", "Invasive", "ToleranceValue", "Habit")])
-  x <- arrange(x, SampleID, SAFIT1) #put the data frame rows in a nice order for reading
+  x <- arrange(x, SampleID) #put the data frame rows in a nice order for reading
   })
   class(agglist) <- c("BMIagg") #assign a class so metric functions know what to do with it
 
