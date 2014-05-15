@@ -19,8 +19,9 @@ aggregate.BMI <- function(x, effortlevel = c("SAFIT1", "SAFIT2")){
   x$DistinctCode[is.na(x$DistinctCode)] <- 0
   
   ###Merge in metadata FinalID###
-  x <- merge(x, metadata[,c("FinalID", "LifeStageCode", "SAFIT1", "SAFIT2", "TaxonomicLevelCode",
-                             "SAFIT1_effortlevel", "SAFIT2_effortlevel")], by=c("FinalID", "LifeStageCode"), type="left")
+  x <- merge(x, metadata[, c(c("FinalID", "LifeStageCode", "TaxonomicLevelCode"),
+                             effortlevel, paste0(effortlevel, "_effortlevel"))],
+             by=c("FinalID", "LifeStageCode"), type="left")
   x <- subset(x, SAFIT1 != "Exclude")
   x <- na.omit(x) 
 
