@@ -30,12 +30,12 @@ aggregate.BMI <- function(x, effortlevel = c("SAFIT1", "SAFIT2")){
     
     ###Distinctiveness for those aggregated up, i.e. 
     ###FinalIDs that are higher resolution than SAFIT1/2
-    x.aggup <- x[x$TaxonomicLevelCode > x[, paste(effort, "_effortlevel", sep="")], ]
+    x.aggup <- x[x$TaxonomicLevelCode > x[, paste(effort, "_effortlevel", sep="")], , drop=FALSE]
     x.aggup[, paste("distinct_", effort, sep="")] <- rep(NA, nrow(x.aggup))
     x.aggup <- ddply(x.aggup, "SampleID", function(fdf){
       ddply(fdf, effort, function(df){
         if(nrow(df)==1)df[, paste("distinct_", effort, sep="")] <- "Distinct" else{
-          df <- df[order(df$LifeStageCode), ]
+          df <- df[order(df$LifeStageCode), , drop=FALSE]
           selected <- which(df$TaxonomicLevelCode == max(df$TaxonomicLevelCode))
           df[selected[1], paste("distinct_", effort, sep="")] <- "Distinct"
           df[!(1:nrow(df) %in% selected[1]), paste("distinct_", effort, sep="")] <- "Non-Distinct"

@@ -31,12 +31,19 @@ sample.default <- function (x, size, replace = FALSE, prob = NULL)
 sample.BMI <- function(x, number=500){
   x$SampleID <- as.character(x$SampleID)
   x$originalBAResult <- x$BAResult
-  rarifydown <- function(data){unlist(sapply(unique(data$SampleID), function(sample){
-    v <- data[data$SampleID==sample, "BAResult"]
-    if(sum(v)>=number){rrarefy(v, number)} else
-    {v}
-  }))}
-  x$BAResult <- rarifydown(x)
+  #   rarifydown <- function(data){
+  #     unlist(sapply(unique(data$SampleID), function(sample){
+  #       v <- data[data$SampleID==sample, "BAResult"]
+  #       if(sum(v)>=number){rrarefy(v, number)} else
+  #       {v}
+  #     }))}
+  #   x$BAResult <- rarifydown(x) 
+  
+  x <- ddply(x, .(SampleID), function(data){
+    if(sum(data$BAResult)>=number)
+      data$BAResult <- as.vector(rrarefy(data$BAResult, number))
+    data
+  })
   x <- subset(x, BAResult != 0)
   x$SampleID <- as.factor(x$SampleID)
   class(x) <- c("BMIsub", "BMI", "data.frame")
