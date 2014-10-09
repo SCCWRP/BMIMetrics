@@ -12,7 +12,11 @@ BMIall <- function(x, effort=2){
   stopifnot("BMIagg" %in% class(x))
   x <- data.table(x[[effort]])
   x$Habit <- as.character(x$Habit)
-  if(effort==1)x <- rename(x, c("distinct_SAFIT1" = "distinct_SAFIT2", "SAFIT2" = "iggSAFIT2", "SAFIT1" = "SAFIT2"))
+#   if(effort==1){
+#     x$distinct_SAFIT2 <- x$distinct_SAFIT1
+#     x$SAFIT2 <- x$SAFIT1
+#   }
+   x <- rename(x, c("distinct_SAFIT1" = "distinct_SAFIT2", "SAFIT2" = "iggSAFIT2", "SAFIT1" = "SAFIT2"))
   result <- x[, list(
     ###Community Metrics###
     Invasive_Percent = sum(BAResult[Invasive == 1])/sum(BAResult),

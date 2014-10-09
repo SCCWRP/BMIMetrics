@@ -21,13 +21,18 @@ BMI <- function(x){
   if(sum(columns %in% names(x)) != 4)
     stop(paste("The following columns are missing:", columns[!(columns %in% names(x))]))
   
+  if("Distinct" %in% names(x))x$DistinctCode <- x$Distinct
   if(!("DistinctCode" %in% names(x)))x$DistinctCode <- rep(NA, nrow(x))
+  if(!("Distinct" %in% names(x)))x$Distinct <- x$DistinctCode
   
   ###Clean data###
   x$FinalID <- as.character(x$FinalID)
   x$FinalID <- str_trim(x$FinalID)
   x$LifeStageCode <- as.character(x$LifeStageCode)
   x$LifeStageCode <- toupper(x$LifeStageCode)
+  x <- ddply(x, .(StationCode, SampleID, FinalID, LifeStageCode, DistinctCode),
+             summarise,
+             BAResult = sum(BAResult))
   
   ###Data check###
   namecheck <- paste(x$FinalID, x$LifeStageCode) %in% paste(metadata$FinalID, metadata$LifeStageCode)
@@ -41,7 +46,6 @@ BMI <- function(x){
                  paste(unique(paste(x$FinalID[!namecheck], x$LifeStageCode[!namecheck])), collapse=", ")))
   }
   
-
   
   if(length(which(!(x$BAResult - round(x$BAResult) %in% 0)))>0)
     stop("BAResult may only contain whole numbers")

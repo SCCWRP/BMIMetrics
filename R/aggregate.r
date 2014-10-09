@@ -31,7 +31,8 @@ aggregate.BMI <- function(x, effortlevel = c("SAFIT1", "SAFIT2")){
     ###Distinctiveness for those aggregated up, i.e. 
     ###FinalIDs that are higher resolution than SAFIT1/2
     x.aggup <- x[x$TaxonomicLevelCode > x[, paste(effort, "_effortlevel", sep="")], , drop=FALSE]
-    x.aggup[, paste("distinct_", effort, sep="")] <- rep(NA, nrow(x.aggup))
+    x.aggup[, paste("distinct_", effort, sep= "")] <- rep(NA, nrow(x.aggup))
+#     
     x.aggup <- ddply(x.aggup, "SampleID", function(fdf){
       ddply(fdf, effort, function(df){
         if(nrow(df)==1)df[, paste("distinct_", effort, sep="")] <- "Distinct" else{
@@ -43,12 +44,12 @@ aggregate.BMI <- function(x, effortlevel = c("SAFIT1", "SAFIT2")){
         df
       })
     })
-
     x <- suppressMessages(join(x, x.aggup, type="full", match="first"))
-
+#     
     ###Taxonomist Overide###
-    x[is.na(x[, paste("distinct_", effort, sep="")]) & x$DistinctCode > 0, paste("distinct_", effort, sep="")] <- "Distinct"
-
+    if(any(x$DistinctCode > 0)){
+      x[x$DistinctCode > 0, paste("distinct_", effort, sep="")] <- "Distinct"
+    }
     ###Distinctiveness for those already above SAFIT aggregation (Check for nested taxa)
     ###Technically, this step could handle everything the first step did, but it's much slower due
     ###to having to reference the metadata repeatedly
@@ -56,23 +57,46 @@ aggregate.BMI <- function(x, effortlevel = c("SAFIT1", "SAFIT2")){
     
     x <- ddply(x, "SampleID", function(df){
       nestcheck <- is.na(df[, paste("distinct_", effort, sep="")])
-      if(sum(nestcheck)==0)df else{
-        df[which(nestcheck), paste("distinct_", effort, sep="")] <- sapply(which(nestcheck), function(i){
-          nestmatch <- metadata[match(df$FinalID, metadata$FinalID), 
-                                as.character(metadata$TaxonomicLevelName[match(df$FinalID[i], metadata$FinalID)])] %in% df$FinalID[i]
-          if(sum(nestmatch) > 2){
-            "Non-Distinct"} else 
-              if(sum(nestmatch) == 2 && sum(df$FinalID %in% df[i, "FinalID"]) == 2 &&
-                   as.numeric(df$LifeStageCode[i]) == 
-                   min(as.numeric(df$LifeStageCode[df$FinalID %in% df[i, "FinalID"]]))){"Distinct"} else
-                     if(sum(nestmatch) == 2){"Non-Distinct"} else
-                     {"Distinct"}
-        })
-        df
-      }
-      
+      if(sum(nestcheck)==0) return(df)
+      df[which(nestcheck), paste("distinct_", effort, sep="")] <- sapply(which(nestcheck), function(i){
+        slash <- strsplit(df$FinalID[i], "/ ")[[1]]
+        ref <- if(length(slash) > 1) 
+            c(slash[1], df$FinalID[i])
+          else
+            df$FinalID[i]
+        nmatch <- metadata[match(df$FinalID, metadata$FinalID), 
+                           as.character(metadata$TaxonomicLevelName[match(ref,
+                                                                          metadata$FinalID)])]
+        nestmatch <- unlist(nmatch)  %in% c(df$FinalID[i], slash)
+        if(sum(nestmatch) > 2){
+          "Non-Distinct"
+        } else if(sum(nestmatch) == 2 && 
+                    sum(df$FinalID %in% df[i, "FinalID"]) == 2 &&
+                    as.numeric(df$LifeStageCode[i]) == 
+                    min(as.numeric(df$LifeStageCode[df$FinalID %in% df[i, "FinalID"]]))) {
+          "Distinct"
+        } else if(sum(nestmatch) == 2){
+          "Non-Distinct"
+        } else {
+          "Distinct"
+        }
+      })
+      df
     })
-   
+    
+
+    #Check to make sure only one is distinct when FinalID == SAFIT effort level
+
+    x <- ddply(x, .(SampleID, FinalID), function(df){
+      effortcol <- df[, paste0(effort, "_effortlevel")]
+      distinctcol <- df[, paste("distinct_", effort, sep="")]
+      if(all(df$TaxonomicLevelCode == effortcol) & sum(distinctcol == "Distinct") > 1) {
+        df[, paste("distinct_", effort, sep="")] <- c("Distinct", rep("Non-Distinct", nrow(df)-1))
+      }
+      df
+    })
+    
+
 
   metadata$merge <- paste(metadata$FinalID, metadata$LifeStageCode)
   x$merge <- paste(x[, effort], x$LifeStageCode)
