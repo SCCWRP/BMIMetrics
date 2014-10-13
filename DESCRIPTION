@@ -15,10 +15,11 @@ Depends:
     data.table
 Collate:
     'loadMetaData.r'
-    'aggregate.r'
-    'sample.r'
     'BMI.r'
+    'BMICSCI.r'
     'BMIMetrics.r'
-    'bugdata.r'
     'BMIall2.r'
     'BMIselect.r'
+    'aggregate.r'
+    'bugdata.r'
+    'sample.r'
