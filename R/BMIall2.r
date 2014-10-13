@@ -12,11 +12,7 @@ BMIall <- function(x, effort=2){
   stopifnot("BMIagg" %in% class(x))
   x <- data.table(x[[effort]])
   x$Habit <- as.character(x$Habit)
-#   if(effort==1){
-#     x$distinct_SAFIT2 <- x$distinct_SAFIT1
-#     x$SAFIT2 <- x$SAFIT1
-#   }
-   x <- rename(x, c("distinct_SAFIT1" = "distinct_SAFIT2", "SAFIT2" = "iggSAFIT2", "SAFIT1" = "SAFIT2"))
+  x <- rename(x, c("distinct_SAFIT1" = "distinct_SAFIT2", "SAFIT2" = "iggSAFIT2", "SAFIT1" = "SAFIT2"))
   result <- x[, list(
     ###Community Metrics###
     Invasive_Percent = sum(BAResult[Invasive == 1])/sum(BAResult),
@@ -27,13 +23,13 @@ BMIall <- function(x, effort=2){
     Simpson_Diversity = diversity(tapply(BAResult, as.character(SAFIT2), sum), index= "simpson"),
     Dominant_Percent = sum(tail(sort(tapply(BAResult, SAFIT2, sum)), 3))/sum(BAResult),
     ###Tolerance Metrics###
-    Intolerant_Percent = sum(BAResult[which(ToleranceValue <= 2)])/sum(BAResult),
+    Intolerant_Percent = sum(BAResult[which(ToleranceValue <= 2)])/sum(BAResult[!is.na(ToleranceValue)]),
     Intolerant_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & ToleranceValue <= 2])/nrow(.SD[distinct_SAFIT2=="Distinct"]),
     Intolerant_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & ToleranceValue <= 2]),
     Tolerant_Percent = sum(BAResult[which(ToleranceValue >= 8)])/sum(BAResult),
     Tolerant_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & ToleranceValue >= 8])/nrow(.SD[distinct_SAFIT2=="Distinct"]),
     Tolerant_Taxa = nrow(.SD[distinct_SAFIT2=="Distinct" & ToleranceValue >= 8]),
-    Tolerance_Value = sum(BAResult * ToleranceValue, na.rm=T)/sum(BAResult),
+    Tolerance_Value = sum(BAResult * ToleranceValue, na.rm=T)/sum(BAResult[!is.na(ToleranceValue)]),
     ###Feeding Group Metrics###
     CFCG_Percent = sum(BAResult[FunctionalFeedingGroup == "CF" | FunctionalFeedingGroup == "CG"])/sum(BAResult),
     CFCG_PercentTaxa = nrow(.SD[distinct_SAFIT2=="Distinct" & (FunctionalFeedingGroup == "CF" | FunctionalFeedingGroup == "CG")])/nrow(.SD[distinct_SAFIT2=="Distinct"]), 
