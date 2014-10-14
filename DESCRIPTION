@@ -12,7 +12,7 @@ Depends:
     vegan,
     stringr,
     plyr,
-    data.table
+    dplyr
 Collate:
     'loadMetaData.r'
     'BMI.r'
