@@ -12,7 +12,7 @@ sum1 <- function(x)sum(x, na.rm=TRUE)
 
 BMIall <- function(x, effort=2){
   stopifnot("BMIagg" %in% class(x))
-  x <- data.table(x[[effort]])
+  x <- x[[effort]]
   x$Habit <- as.character(x$Habit)
   x <- plyr::rename(x, c("distinct_SAFIT1" = "distinct_SAFIT2", "SAFIT2" = "iggSAFIT2", "SAFIT1" = "SAFIT2"),
               warn_missing=FALSE)
