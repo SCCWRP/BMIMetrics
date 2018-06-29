@@ -16,7 +16,7 @@ BMIall <- function(x, effort=2){
   x$Habit <- as.character(x$Habit)
   x <- plyr::rename(x, c("distinct_SAFIT1" = "distinct_SAFIT2", "SAFIT2" = "iggSAFIT2", "SAFIT1" = "SAFIT2"),
               warn_missing=FALSE)
-  dplyr::summarise(group_by(x, SampleID), 
+  dplyr::summarise(dplyr::group_by(x, SampleID), 
     ###Community Metrics###
     Invasive_Percent = sum1(BAResult[Invasive == 1])/sum1(BAResult),
     Invasive_PercentTaxa = sum1(distinct_SAFIT2=="Distinct" & (Invasive == 1))/sum1(distinct_SAFIT2=="Distinct"), 
