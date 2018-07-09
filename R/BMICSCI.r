@@ -17,7 +17,7 @@ BMICSCI <- function(x, effort=2){
   x$Habit <- as.character(x$Habit)
   x <- plyr::rename(x, c("distinct_SAFIT1" = "distinct_SAFIT2", "SAFIT2" = "iggSAFIT2", "SAFIT1" = "SAFIT2"),
               warn_missing=FALSE)
-  dplyr::summarise(dplyr::group_by(x, SampleID), 
+  out <- dplyr::summarise(dplyr::group_by(x, SampleID), 
     Taxonomic_Richness = sum1(distinct_SAFIT2=="Distinct"),
     Intolerant_Percent = sum1(BAResult[which(ToleranceValue <= 2)])/sum1(BAResult[!is.na(ToleranceValue)]),
     Shredder_Taxa = sum1(distinct_SAFIT2=="Distinct" & (FunctionalFeedingGroup == "SH")),
@@ -25,5 +25,12 @@ BMICSCI <- function(x, effort=2){
     Coleoptera_PercentTaxa = sum1(distinct_SAFIT2=="Distinct" & (Order == "Coleoptera"))/sum1(distinct_SAFIT2=="Distinct"), 
     EPT_PercentTaxa = sum1(distinct_SAFIT2=="Distinct" & (Order %in% c("Ephemeroptera", "Plecoptera", "Trichoptera")))/sum1(distinct_SAFIT2=="Distinct")
   )
+  
+  # change na values in Clinger_PercentTaxa, Intolerant_Percent to zero
+  out$Intolerant_Percent[is.na(out$Intolerant_Percent)] <- 0
+  out$Clinger_PercentTaxa[is.na(out$Clinger_PercentTaxa)] <- 0
+  
+  return(out)
+  
 }
 
