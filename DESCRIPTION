@@ -1,8 +1,8 @@
 Package: BMIMetrics
 Type: Package
 Title: Suite of metric calculators for benthic macroinvertebrate communities
-Version: 0.1
-Date: 2012-10-17
+Version: 0.2
+Date: 2024-11-19
 Author: MW Engeln
 Maintainer: <raphaelm@sccwrp.org>
 Description: Suite of metric calculators for benthic macroinvertebrate

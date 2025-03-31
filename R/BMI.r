@@ -13,8 +13,8 @@
 #' @include loadMetaData.r
 #' 
 
-BMI <- function(x){
-  metadata <- loadMetaData()
+BMI <- function(x, metadata.year = 2025){
+  metadata <- loadMetaData(metadata.year = metadata.year)
   
   ###Format Check###
   columns <- c("SampleID", "FinalID", "LifeStageCode", "BAResult")
