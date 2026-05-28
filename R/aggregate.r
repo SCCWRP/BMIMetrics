@@ -98,7 +98,10 @@ aggregate.BMI <- function(x, effortlevel = c("SAFIT1", "SAFIT2")){
     
 
 
-  metadata$merge <- paste(metadata$FinalID, metadata$LifeStageCode)
+  # Nathan Mack suggested the change below, in an email on May 26, 2026 at 2:57pm
+  # metadata$merge <- paste(metadata$FinalID, metadata$LifeStageCode)
+  metadata$merge <- paste(metadata[, effort], metadata$LifeStageCode)
+    
   x$merge <- paste(x[, effort], x$LifeStageCode)
   x <- cbind(x, metadata[match(x$merge, metadata$merge), 
                          c("FunctionalFeedingGroup", "Subphylum", "Class", "Subclass", "Order",
