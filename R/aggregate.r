@@ -99,8 +99,9 @@ aggregate.BMI <- function(x, effortlevel = c("SAFIT1", "SAFIT2")){
 
 
   # Nathan Mack suggested the change below, in an email on May 26, 2026 at 2:57pm
-  # metadata$merge <- paste(metadata$FinalID, metadata$LifeStageCode)
-  metadata$merge <- paste(metadata[, effort], metadata$LifeStageCode)
+  # Undoing changes requested in an email on June 1, 2026 at 4:45pm
+  metadata$merge <- paste(metadata$FinalID, metadata$LifeStageCode)
+  # metadata$merge <- paste(metadata[, effort], metadata$LifeStageCode)
     
   x$merge <- paste(x[, effort], x$LifeStageCode)
   x <- cbind(x, metadata[match(x$merge, metadata$merge), 
